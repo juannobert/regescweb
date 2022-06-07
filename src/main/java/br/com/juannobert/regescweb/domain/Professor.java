@@ -1,4 +1,4 @@
-package br.com.juannobert.regescweb.models;
+package br.com.juannobert.regescweb.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
