@@ -1,4 +1,4 @@
-package br.com.juannobert.regescweb.models.enums;
+package br.com.juannobert.regescweb.domain.enums;
 
 public enum StatusProfessor {
 	ATIVO,INATIVO,FERIAS,APOSENTADO

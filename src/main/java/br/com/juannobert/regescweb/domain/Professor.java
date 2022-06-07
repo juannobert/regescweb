@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.com.juannobert.regescweb.models.enums.StatusProfessor;
+import br.com.juannobert.regescweb.domain.enums.StatusProfessor;
 
 @Entity
 @Table(name = "tb_professor")
