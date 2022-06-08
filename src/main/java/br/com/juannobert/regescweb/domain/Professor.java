@@ -20,7 +20,7 @@ public class Professor {
 
 	private String name;
 
-	private Double salary;
+	private double salary;
 
 	@Enumerated(EnumType.STRING)
 	private StatusProfessor statusProfessor;
@@ -30,8 +30,7 @@ public class Professor {
 		
 	}
 	
-	public Professor(Long id, String name, Double salary, StatusProfessor statusProfessor) {
-		this.id = id;
+	public Professor(String name, double salary, StatusProfessor statusProfessor) {
 		this.name = name;
 		this.salary = salary;
 		this.statusProfessor = statusProfessor;
@@ -57,7 +56,7 @@ public class Professor {
 		return salary;
 	}
 
-	public void setSalary(Double salary) {
+	public void setSalary(double salary) {
 		this.salary = salary;
 	}
 
