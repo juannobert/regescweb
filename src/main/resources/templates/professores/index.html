@@ -1,5 +1,5 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-12">
                 <h1>Lista de professores</h1>
-                <table class="table table-hover">
+                <table class="table table-hover table-responsive">
                     <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -25,11 +25,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th class="col-1"></th>
-                        <td class="col-4" ></td>
-                        <td class="col-2" ></td>
-                        <td class="col-2" ></td>
+                    <tr th:each = "professor : ${professores}">
+                        <th th:text = "${professor.id}" class="col-1"></th>
+                        <td th:text = "${professor.name}"   class="col-4" ></td>
+                        <td th:text = "${professor.salary}"  class="col-2" ></td>
+                        <td th:text = "${professor.statusProfessor}"  class="col-2" ></td>
                         <td class="col-1"><a href="#">Editar</a></td>
                         <td class="col-1"><a href="#">Excluir</a></td>
                         <td class="col-1"><a href="#">Detalhes</a></td>
