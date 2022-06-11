@@ -1,5 +1,6 @@
 package br.com.juannobert.regescweb.controllers;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.juannobert.regescweb.domain.Professor;
 import br.com.juannobert.regescweb.domain.enums.StatusProfessor;
+import br.com.juannobert.regescweb.requests.ProfessorPostRequest;
 import br.com.juannobert.regescweb.services.ProfessorServices;
 
 @Controller
@@ -30,9 +33,12 @@ public class ProfessorController {
 		return mv;
 	}
 	
-	@PostMapping("/professorres")
-	public String newProfessor() {
-		return "";
+	@PostMapping()
+	public String newProfessor(ProfessorPostRequest professorRequest) {
+		var professor = new Professor();
+		BeanUtils.copyProperties(professorRequest, professor);
+		professorServices.save(professor);
+		return "redirect:/professores";
 	}
 	
 }
