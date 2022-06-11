@@ -20,7 +20,7 @@ public class Professor {
 
 	private String name;
 
-	private double salary;
+	private Double salary;
 
 	@Enumerated(EnumType.STRING)
 	private StatusProfessor statusProfessor;
