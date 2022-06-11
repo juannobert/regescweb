@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.juannobert.regescweb.domain.enums.StatusProfessor;
 import br.com.juannobert.regescweb.services.ProfessorServices;
 
 @Controller
@@ -13,12 +14,19 @@ import br.com.juannobert.regescweb.services.ProfessorServices;
 public class ProfessorController {
 	@Autowired
 	ProfessorServices professorServices;
+	
 	@GetMapping()
 	public ModelAndView findAll() {
 		ModelAndView mv = new ModelAndView("professores/index");
 		mv.addObject("professores", professorServices.findAll());
 		return mv;
-		
+	}
+	
+	@GetMapping("/new")
+	public ModelAndView newProfessor() {
+		ModelAndView mv = new ModelAndView("professores/new");
+		mv.addObject("statusProfessor", StatusProfessor.values());
+		return mv;
 	}
 	
 }
