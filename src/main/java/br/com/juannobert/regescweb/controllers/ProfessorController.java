@@ -1,8 +1,11 @@
 package br.com.juannobert.regescweb.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,11 +37,20 @@ public class ProfessorController {
 	}
 	
 	@PostMapping()
-	public String newProfessor(ProfessorPostRequest professorRequest) {
-		var professor = new Professor();
-		BeanUtils.copyProperties(professorRequest, professor);
-		professorServices.save(professor);
-		return "redirect:/professores";
+	public ModelAndView newProfessor(@Valid ProfessorPostRequest professorRequest,BindingResult result) {
+		ModelAndView mv = new ModelAndView();
+		if(result.hasErrors()) {
+			mv.setViewName("/professores/new");
+			mv.addObject("statusProfessor",StatusProfessor.values());
+		}
+		else {
+			var professor = new Professor();
+			BeanUtils.copyProperties(professorRequest, professor);
+			professorServices.save(professor);
+			mv.setViewName("redirect:/professores");
+		}
+		return mv;
+		
 	}
 	
 }

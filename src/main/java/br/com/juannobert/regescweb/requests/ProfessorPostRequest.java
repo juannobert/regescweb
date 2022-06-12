@@ -1,11 +1,16 @@
 package br.com.juannobert.regescweb.requests;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import br.com.juannobert.regescweb.domain.enums.StatusProfessor;
 
 public class ProfessorPostRequest {
 	
+	@NotBlank
 	private String name;
 
+	@NotNull
 	private Double salary;
 
 	private StatusProfessor statusProfessor;
