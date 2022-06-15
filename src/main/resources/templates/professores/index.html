@@ -31,17 +31,17 @@
                         <td th:text = "${professor.name}"   class="col-4" ></td>
                         <td th:text = "${professor.salary}"  class="col-2" ></td>
                         <td th:text = "${professor.statusProfessor}"  class="col-2" ></td>
-                        <td class="col-1"><a href="#">Editar</a></td>
-                        <td class="col-1"><a th:href="@{/professores/delete/{id}(id=${professor.id})}">Excluir</a></td>
-                        <td class="col-1"><a >Detalhes</a></td>
+                        <td class="col-1"><a class="btn btn-primary" href="#">Editar</a></td>
+                        <td class="col-1"><a class="btn btn-danger" th:href="@{/professores/delete/{id}(id=${professor.id})}">Excluir</a></td>
+                        <td class="col-1"><a class="btn btn-warning" style="color: white;" href="#" >Detalhes</a></td>
                     </tr>
                     </tbody>
                 </table>
+                 <div class="alert alert-danger" role="alert" th:if="${professores.isEmpty() == true}">Não há registros cadastrados
             </div>
         </div>
-        <div class="row">
-            <a href="/professores/new">Novo Professor</a>
-        </div>
+    </div>
+    	<a class="btn btn-primary" href="/professores/new">Novo Professor</a>
     </div>
 </body>
 </html>
