@@ -1,5 +1,7 @@
 package br.com.juannobert.regescweb.controllers;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -25,21 +27,21 @@ public class ProfessorController {
 	ProfessorServices professorServices;
 	
 	@GetMapping()
-	public ModelAndView findAll() {
+	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("professores/index");
 		mv.addObject("professores", professorServices.findAll());
 		return mv;
 	}
 	
 	@GetMapping("/new")
-	public ModelAndView formNewProfessor() {
+	public ModelAndView formNovoProfessor() {
 		ModelAndView mv = new ModelAndView("professores/new");
 		mv.addObject("statusProfessor", StatusProfessor.values());
 		return mv;
 	}
 	
 	@PostMapping()
-	public ModelAndView newProfessor(@Valid ProfessorPostRequest professorRequest,BindingResult result) {
+	public ModelAndView novoProfessor(@Valid ProfessorPostRequest professorRequest,BindingResult result) {
 		ModelAndView mv = new ModelAndView();
 		if(result.hasErrors()) {
 			mv.setViewName("/professores/new");
@@ -57,14 +59,61 @@ public class ProfessorController {
 	
 	@GetMapping("/delete/{id}")
 	public String delete(@PathVariable Long id) {
-		Professor professor = professorServices.findById(id);
+		Professor professor = professorServices.findById(id).get();
 		professorServices.delete(professor);
 		return "redirect:/professores";
 	}
 	
+	@GetMapping("/{id}")
+	public ModelAndView detalhes(@PathVariable Long id) {
+		Optional<Professor> optional = professorServices.findById(id);
+		if(optional.isPresent()) {
+			ModelAndView mv = new ModelAndView("/professores/show");
+			mv.addObject("professor",optional.get());
+			return mv;
+			
+		}
+		return new ModelAndView("redirect:/professores");
+		
+	}
+	
+	@GetMapping("/edit/{id}")
+	public ModelAndView Formeditar(@PathVariable Long id,ProfessorPostRequest professorRequest) {
+		Optional<Professor> optional = professorServices.findById(id);
+		if(optional.isPresent()) {
+			ModelAndView mv = new ModelAndView("/professores/edit");
+			Professor professor = optional.get();
+			BeanUtils.copyProperties(professor, professorRequest,"id");
+			mv.addObject("statusProfessor",StatusProfessor.values());
+			mv.addObject("professorId",professor.getId());
+			return mv;
+			
+		}
+		return new ModelAndView("redirect:/professores");
+		
+	}
+	
+	@PostMapping("/{id}")
+	public ModelAndView editar(@PathVariable Long id,@Valid ProfessorPostRequest professorRequest,BindingResult result) {
+		ModelAndView mv = new ModelAndView();
+		if(result.hasErrors()) {
+			mv.setViewName("/professores/edit");
+			mv.addObject("statusProfessor",StatusProfessor.values());
+		}
+		else {
+			Professor professor = professorServices.findById(id).get();;
+				BeanUtils.copyProperties(professorRequest, professor,"id");
+				professorServices.save(professor);
+				mv.setViewName("redirect:/professores/"+professor.getId());
+			}
+		
+		return mv;
+		
+	}
+	
 	@ModelAttribute(value = "professorPostRequest")
-	public ProfessorPostRequest getRequisicaoNovoProfessor()
-	{
+	public ProfessorPostRequest getRequisicaoNovoProfessor() {
+	
 	    return new ProfessorPostRequest();
 	}
 	

@@ -1,0 +1,18 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="~{fragmentos :: head('Detalhes Professor')}"></head>
+<body>
+	<header th:replace="~{fragmentos :: header('Detalhes Professor: #' + ${professor.id})}"></header>
+	<div class="container mt-4">
+		<div class="card" style="width: 18rem;">
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item">Nome:<span th:text="${professor.name}"></span></li>
+				<li class="list-group-item">Salário:<span th:text="${professor.salary}"></span></li>
+				<li class="list-group-item">Status:<span th:text="${professor.statusProfessor}"></span></li>
+			</ul>
+		</div>
+		<a href="/professores" class="btn btn-primary" style="margin-top: 30px" type="submit">Página
+			Principal</a>
+	</div>
+</body>
+</html>

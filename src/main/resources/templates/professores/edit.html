@@ -1,0 +1,35 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="~{fragmentos :: head('Editar Professor')}"></head>
+<body>
+	<header th:replace="~{fragmentos :: header('Editar Professor')}"></header>
+	<div class="container">
+		<div class="container">
+			<div class="row">
+				<form th:object="${professorPostRequest}" th:action="@{/professores/{id}(id=${professorId})}"
+					method="POST">
+					<div class="mb-3">
+						<label class="form-label">Nome do Professor</label> <input
+							class="form-control" th:errorclass="is-invalid" type="text"
+							th:field="*{name}">
+						<div class="invalid-feedback" th:errors="*{name}"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Salário</label> <input
+							class="form-control" th:errorclass="is-invalid" type="number"
+							th:field="*{salary}" min="0">
+						<div class="invalid-feedback" th:errors="*{salary}"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Status</label> <select
+							class="form-select" th:field="*{statusProfessor}">
+							<option th:each="status : ${statusProfessor}"
+								th:value="${status}" th:text="${status}"></option>
+						</select>
+					</div>
+					<button class="btn btn-primary" type="submit">Submeter</button>
+					<a href="javascript:history.back()" class="btn btn-primary" type="submit">Voltar</a>
+				</form>
+			</div>
+		</div>
+	</div>

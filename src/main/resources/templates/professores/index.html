@@ -11,7 +11,7 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Nome</th>
-                        <th scope="col">Sal·rio</th>
+                        <th scope="col">Sal√°rio</th>
                         <th scope="col">Status</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
@@ -24,13 +24,13 @@
                         <td th:text = "${professor.name}"   class="col-4" ></td>
                         <td th:text = "${professor.salary}"  class="col-2" ></td>
                         <td th:text = "${professor.statusProfessor}"  class="col-2" ></td>
-                        <td class="col-1"><a class="btn btn-primary" href="#">Editar</a></td>
+                        <td class="col-1"><a class="btn btn-primary" th:href="@{/professores/edit/{id}(id=${professor.id})}">Editar</a></td>
                         <td class="col-1"><a class="btn btn-danger" th:href="@{/professores/delete/{id}(id=${professor.id})}">Excluir</a></td>
-                        <td class="col-1"><a class="btn btn-warning" style="color: white;" href="#" >Detalhes</a></td>
+                        <td class="col-1"><a class="btn btn-warning" style="color: white;" th:href="@{/professores/{id}(id=${professor.id})}" >Detalhes</a></td>
                     </tr>
                     </tbody>
                 </table>
-                 <div class="alert alert-danger" role="alert" th:if="${professores.isEmpty() == true}">N„o h· registros cadastrados
+                 <div class="alert alert-danger" role="alert" th:if="${professores.isEmpty() == true}">N√£o h√° registros cadastrados
             </div>
         </div>
     </div>
