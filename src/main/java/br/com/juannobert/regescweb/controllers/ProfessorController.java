@@ -25,96 +25,109 @@ import br.com.juannobert.regescweb.services.ProfessorServices;
 public class ProfessorController {
 	@Autowired
 	ProfessorServices professorServices;
-	
+
 	@GetMapping()
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("professores/index");
 		mv.addObject("professores", professorServices.findAll());
 		return mv;
 	}
-	
+
 	@GetMapping("/new")
 	public ModelAndView formNovoProfessor() {
 		ModelAndView mv = new ModelAndView("professores/new");
 		mv.addObject("statusProfessor", StatusProfessor.values());
 		return mv;
 	}
-	
+
 	@PostMapping()
-	public ModelAndView novoProfessor(@Valid ProfessorPostRequest professorRequest,BindingResult result) {
+	public ModelAndView novoProfessor(@Valid ProfessorPostRequest professorRequest, BindingResult result) {
 		ModelAndView mv = new ModelAndView();
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			mv.setViewName("/professores/new");
-			mv.addObject("statusProfessor",StatusProfessor.values());
-		}
-		else {
+			mv.addObject("statusProfessor", StatusProfessor.values());
+		} else {
 			var professor = new Professor();
 			BeanUtils.copyProperties(professorRequest, professor);
 			professorServices.save(professor);
 			mv.setViewName("redirect:/professores");
 		}
 		return mv;
-	
+
 	}
-	
+
 	@GetMapping("/delete/{id}")
-	public String delete(@PathVariable Long id) {
-		Professor professor = professorServices.findById(id).get();
-		professorServices.delete(professor);
-		return "redirect:/professores";
+	public ModelAndView delete(@PathVariable Long id) {
+		ModelAndView mv = new ModelAndView("redirect:/professores");
+		Optional<Professor> professor = professorServices.findById(id);
+		if(professor.isPresent()) {
+			professorServices.delete(professor.get());
+			
+		}
+		else {
+			mv.addObject("msg","O usuário com ID: " + id + " não foi encontrado");
+		}
+		return mv;
 	}
-	
+
 	@GetMapping("/{id}")
 	public ModelAndView detalhes(@PathVariable Long id) {
 		Optional<Professor> optional = professorServices.findById(id);
-		if(optional.isPresent()) {
-			ModelAndView mv = new ModelAndView("/professores/show");
-			mv.addObject("professor",optional.get());
-			return mv;
-			
-		}
-		return new ModelAndView("redirect:/professores");
-		
-	}
-	
-	@GetMapping("/edit/{id}")
-	public ModelAndView Formeditar(@PathVariable Long id,ProfessorPostRequest professorRequest) {
-		Optional<Professor> optional = professorServices.findById(id);
-		if(optional.isPresent()) {
-			ModelAndView mv = new ModelAndView("/professores/edit");
-			Professor professor = optional.get();
-			BeanUtils.copyProperties(professor, professorRequest,"id");
-			mv.addObject("statusProfessor",StatusProfessor.values());
-			mv.addObject("professorId",professor.getId());
-			return mv;
-			
-		}
-		return new ModelAndView("redirect:/professores");
-		
-	}
-	
-	@PostMapping("/{id}")
-	public ModelAndView editar(@PathVariable Long id,@Valid ProfessorPostRequest professorRequest,BindingResult result) {
 		ModelAndView mv = new ModelAndView();
-		if(result.hasErrors()) {
-			mv.setViewName("/professores/edit");
-			mv.addObject("statusProfessor",StatusProfessor.values());
+		if (optional.isPresent()) {
+			mv.setViewName("/professores/show");
+			mv.addObject("professor", optional.get());
+			return mv;
 		}
 		else {
-			Professor professor = professorServices.findById(id).get();;
-				BeanUtils.copyProperties(professorRequest, professor,"id");
-				professorServices.save(professor);
-				mv.setViewName("redirect:/professores/"+professor.getId());
-			}
+			mv.setViewName("redirect:/professores");
+			mv.addObject("msg","O usuário com ID: " + id + " não foi encontrado");
+			return mv;
+		}
 		
-		return mv;
-		
+
 	}
-	
+
+	@GetMapping("/edit/{id}")
+	public ModelAndView Formeditar(@PathVariable Long id, ProfessorPostRequest professorRequest) {
+		Optional<Professor> optional = professorServices.findById(id);
+		ModelAndView mv = new ModelAndView();
+		if (optional.isPresent()) {
+			mv.setViewName("/professores/edit");
+			Professor professor = optional.get();
+			BeanUtils.copyProperties(professor, professorRequest, "id");
+			mv.addObject("professorId", professor.getId());
+		}
+		else {
+			mv.setViewName("redirect:/professores");
+			mv.addObject("msg","O usuário com ID: " + id + " não foi encontrado");
+		}
+		return mv;
+
+	}
+
+	@PostMapping("/{id}")
+	public ModelAndView editar(@PathVariable Long id, @Valid ProfessorPostRequest professorRequest,
+			BindingResult result) {
+		ModelAndView mv = new ModelAndView();
+		if (result.hasErrors()) {
+			mv.setViewName("/professores/edit");
+			mv.addObject("statusProfessor", StatusProfessor.values());
+		} else {
+			Professor professor = professorServices.findById(id).get();
+			BeanUtils.copyProperties(professorRequest, professor, "id");
+			professorServices.save(professor);
+			mv.setViewName("redirect:/professores/" + professor.getId());
+		}
+
+		return mv;
+
+	}
+
 	@ModelAttribute(value = "professorPostRequest")
 	public ProfessorPostRequest getRequisicaoNovoProfessor() {
-	
-	    return new ProfessorPostRequest();
+
+		return new ProfessorPostRequest();
 	}
-	
+
 }

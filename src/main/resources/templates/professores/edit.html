@@ -2,7 +2,7 @@
 <html xmlns:th="http://thymeleaf.org">
 <head th:replace="~{fragmentos :: head('Editar Professor')}"></head>
 <body>
-	<header th:replace="~{fragmentos :: header('Editar Professor')}"></header>
+	<header th:replace="~{fragmentos :: header('Editar Professor #' + ${professorId})}"></header>
 	<div class="container">
 		<div class="container">
 			<div class="row">
