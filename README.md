@@ -32,7 +32,7 @@
 
 <br>
 
-> ### Teconologias utilizadas BackEnd:
+> ### Tecnologias utilizadas BackEnd:
 * Spring MVC
 * Spring Boot
 * Spring Data JPA
@@ -42,7 +42,7 @@
 
 <br>
 
-> ### Teconologias utilizadas FrontEnd:
+> ### Tecnologias utilizadas FrontEnd:
 * HTML5
 * CSS3
 * Bootstrap 5.0 CLI
